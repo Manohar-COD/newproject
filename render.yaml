@@ -1,22 +1,20 @@
 services:
-  # ── Spring Boot Backend ──────────────────────────────────────────────────────
+  # ── Spring Boot Backend (Docker) ─────────────────────────────────────────────
   - type: web
     name: inventory-backend
-    runtime: java
-    rootDir: backend
-    buildCommand: ./mvnw clean package -DskipTests
-    startCommand: java -jar target/inventory-0.0.1-SNAPSHOT.jar
+    runtime: docker
+    dockerfilePath: backend/Dockerfile
+    dockerContext: backend
     envVars:
-      - key: JAVA_VERSION
-        value: "17"
       - key: SPRING_PROFILES_ACTIVE
         value: prod
-      # Set ALLOWED_ORIGINS to your frontend's Render URL after first deploy
-      # e.g.  https://inventory-frontend.onrender.com
+      - key: PORT
+        value: "8080"
+      # After the frontend deploys, replace this with the real frontend URL
       - key: ALLOWED_ORIGINS
         value: "https://inventory-frontend.onrender.com"
 
-  # ── React / Vite Frontend (Static Site) ────────────────────────────────────
+  # ── React / Vite Frontend (Static Site) ─────────────────────────────────────
   - type: web
     name: inventory-frontend
     runtime: static
@@ -24,8 +22,7 @@ services:
     buildCommand: npm install && npm run build
     staticPublishPath: dist
     envVars:
-      # Set this to the backend's Render URL after the backend service is created
-      # e.g.  https://inventory-backend.onrender.com/api/products
+      # After the backend deploys, replace this with the real backend URL
       - key: VITE_API_URL
         value: "https://inventory-backend.onrender.com/api/products"
     routes:

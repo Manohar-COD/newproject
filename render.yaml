@@ -10,9 +10,8 @@ services:
         value: prod
       - key: PORT
         value: "8080"
-      # After the frontend deploys, replace this with the real frontend URL
       - key: ALLOWED_ORIGINS
-        value: "https://inventory-frontend.onrender.com"
+        value: "https://inventory-frontend-fw9z.onrender.com"
 
   # ── React / Vite Frontend (Static Site) ─────────────────────────────────────
   - type: web
@@ -22,9 +21,8 @@ services:
     buildCommand: npm install && npm run build
     staticPublishPath: dist
     envVars:
-      # After the backend deploys, replace this with the real backend URL
       - key: VITE_API_URL
-        value: "https://inventory-backend.onrender.com/api/products"
+        value: "https://inventory-backend-ko5a.onrender.com/api/products"
     routes:
       - type: rewrite
         source: /*

@@ -2,7 +2,10 @@ import { useState, useEffect } from 'react';
 import { Package, Search, Plus, AlertCircle, DollarSign, Edit2, Trash2, X } from 'lucide-react';
 import './index.css';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080/api/products';
+const API_URL = import.meta.env.VITE_API_URL
+  || (typeof window !== 'undefined' && window.location.hostname !== 'localhost'
+      ? 'https://inventory-backend-ko5a.onrender.com/api/products'
+      : 'http://localhost:8080/api/products');
 
 function App() {
   const [products, setProducts] = useState([]);
